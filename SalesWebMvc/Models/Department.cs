@@ -1,4 +1,7 @@
-﻿namespace SalesWebMvc.Models
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace SalesWebMvc.Models
 {
     public class Department
     {
@@ -10,9 +13,8 @@
         {
         }
 
-        public Department(int id, string name)
+        public Department(string name)
         {
-            Id = id;
             Name = name;
         }
 
