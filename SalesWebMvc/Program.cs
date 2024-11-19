@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using SalesWebMvc.Data;
@@ -22,6 +23,15 @@ namespace SalesWebMvc
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
+
+            var enUS = new CultureInfo("en-US");
+
+            app.UseRequestLocalization( new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture(enUS),
+                SupportedCultures = new List<CultureInfo>() { enUS },
+                SupportedUICultures = new List<CultureInfo>() { enUS }
+            });
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
