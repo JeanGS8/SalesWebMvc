@@ -33,7 +33,7 @@ namespace SalesWebMvc.Controllers
                 return NotFound();
             }
 
-            var department = await _context.Department
+            Department? department = await _context.Department
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (department == null)
             {
@@ -73,7 +73,7 @@ namespace SalesWebMvc.Controllers
                 return NotFound();
             }
 
-            var department = await _context.Department.FindAsync(id);
+            Department? department = await _context.Department.FindAsync(id);
             if (department == null)
             {
                 return NotFound();
@@ -124,7 +124,7 @@ namespace SalesWebMvc.Controllers
                 return NotFound();
             }
 
-            var department = await _context.Department
+            Department? department = await _context.Department
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (department == null)
             {
@@ -139,7 +139,7 @@ namespace SalesWebMvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var department = await _context.Department.FindAsync(id);
+            Department? department = await _context.Department.FindAsync(id);
             if (department != null)
             {
                 _context.Department.Remove(department);

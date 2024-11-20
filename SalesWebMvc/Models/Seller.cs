@@ -11,8 +11,8 @@ namespace SalesWebMvc.Models
         public string Name { get; set; }
 
         [Required(ErrorMessage = "{0} required")]
-        [DataType(DataType.EmailAddress)]
         [EmailAddress(ErrorMessage = "Enter a valid email")]
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "{0} required")]
@@ -27,9 +27,9 @@ namespace SalesWebMvc.Models
         [DisplayFormat(DataFormatString = "{0:C}")]
         public double BaseSalary { get; set; }
 
-        [Required(ErrorMessage = "{0} required")]
-        public Department Department { get; set; }
+        public Department? Department { get; set; }
 
+        [Required(ErrorMessage = "{0} required")]
         public int DepartmentId { get; set; }
 
         public ICollection<SalesRecord> Sales = new List<SalesRecord>();

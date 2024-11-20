@@ -19,107 +19,104 @@ namespace SalesWebMvc.Controllers
             _departmentService = departmentService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var list = _sellerService.FindAll();
+            List<Seller> list = await _sellerService.FindAllAsync();
 
             return View(list);
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            var departments = _departmentService.FindAll();
-            var viewModel = new SellerFormViewModel() {Departments = departments};
+            List<Department> departments = await _departmentService.FindAllAsync();
+            SellerFormViewModel viewModel = new SellerFormViewModel() {Departments = departments};
             return View(viewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Seller seller)
+        public async Task<IActionResult> Create(Seller seller)
         {
             if (!ModelState.IsValid)
             {
-                List<Department> departments = _departmentService.FindAll();
-                SellerFormViewModel viewModel = new SellerFormViewModel()
-                {
-                    Seller = seller,
-                    Departments = departments
-                };
+                List<Department> departments = await _departmentService.FindAllAsync();
+                SellerFormViewModel viewModel = new SellerFormViewModel() { Seller = seller, Departments = departments };
                 return View(viewModel);
             }
-            _sellerService.Insert(seller);
+
+            await _sellerService.InsertAsync(seller);
             return RedirectToAction("Index");
         }
 
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id is null)
             {
                 return RedirectToAction("Error", new {message = "Id not provided"});
             }
 
-            var obj = _sellerService.FindById(id.Value);
+            Seller? seller = await _sellerService.FindByIdAsync(id.Value);
 
-            if(obj is null)
+            if(seller is null)
             {
                 return RedirectToAction("Error", new { message = "Id not found" });
             }
 
-            return View(obj);
+            return View(seller);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            _sellerService.Remove(id);
+            await _sellerService.RemoveAsync(id);
             return RedirectToAction("Index");
         }
 
-        public IActionResult Details(int? id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id is null)
             {
                 return RedirectToAction("Error", new { message = "Id not provided" });
             }
 
-            var obj = _sellerService.FindById(id.Value);
+            Seller? seller = await _sellerService.FindByIdAsync(id.Value);
 
-            if (obj is null)
+            if (seller is null)
             {
                 return RedirectToAction("Error", new { message = "Id not found" });
             }
 
-            return View(obj);
+            return View(seller);
         }
 
-        public IActionResult Edit(int? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id is null)
             {
                 return RedirectToAction("Error", new { message = "Id not provided" });
             }
 
-            var obj = _sellerService.FindById(id.Value);
+            Seller? seller = await _sellerService.FindByIdAsync(id.Value);
 
-            if (obj is null)
+            if (seller is null)
             {
                 return RedirectToAction("Error", new { message = "Id not found" });
             }
 
-            List<Department> departments = _departmentService.FindAll();
-            var sellerForm = new SellerFormViewModel() { Seller = obj, Departments = departments };
+            List<Department> departments = await _departmentService.FindAllAsync();
+            SellerFormViewModel sellerForm = new SellerFormViewModel() { Seller = seller, Departments = departments };
 
             return View(sellerForm);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, Seller seller)
+        public async Task<IActionResult> Edit(int id, Seller seller)
         {
             if (!ModelState.IsValid)
             {
-                List<Department> departments = _departmentService.FindAll();
+                List<Department> departments = await _departmentService.FindAllAsync();
                 SellerFormViewModel viewModel = new SellerFormViewModel()
                 {
                     Seller = seller,
@@ -135,7 +132,7 @@ namespace SalesWebMvc.Controllers
 
             try
             {
-                _sellerService.Update(seller);
+                await _sellerService.UpdateAsync(seller);
                 return RedirectToAction("Index");
             }
             catch (ApplicationException e)
@@ -146,7 +143,7 @@ namespace SalesWebMvc.Controllers
 
         public IActionResult Error(string message)
         {
-            var viewModel = new ErrorViewModel()
+            ErrorViewModel viewModel = new ErrorViewModel()
             {
                 Message = message,
                 RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
