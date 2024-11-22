@@ -32,7 +32,7 @@ namespace SalesWebMvc.Models
         [Required(ErrorMessage = "{0} required")]
         public int DepartmentId { get; set; }
 
-        public ICollection<SalesRecord> Sales = new List<SalesRecord>();
+        public ICollection<SalesRecord> Sales { get; set; } = new List<SalesRecord>();
 
         public Seller()
         {

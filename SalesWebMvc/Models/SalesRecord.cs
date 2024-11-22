@@ -13,8 +13,13 @@ namespace SalesWebMvc.Models
 
         [DisplayFormat(DataFormatString = "{0:C}")]
         public double Amount { get; set; }
+
         public SaleStatus Status { get; set; }
-        public Seller Seller { get; set; }
+
+        public Seller? Seller { get; set; }
+
+        [Required(ErrorMessage = "{0} required")]
+        public int SellerId { get; set; }
 
         public SalesRecord()
         {

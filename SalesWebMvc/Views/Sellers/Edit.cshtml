@@ -32,15 +32,19 @@
                 <span asp-validation-for="Seller.BaseSalary" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Seller.DepartmentId" class="form-label mt-4">Department</label>
+                <label asp-for="Seller.DepartmentId" class="form-label">Department</label>
                 <select asp-for="Seller.DepartmentId" class="form-select" asp-items="@(new SelectList(Model.Departments, "Id", "Name"))"></select>
                 <span asp-validation-for="Seller.DepartmentId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-outline-primary my-3" />
+                <input type="submit" value="Save" class="btn btn-outline-primary my-2" />
             </div>
         </form>
     </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts
