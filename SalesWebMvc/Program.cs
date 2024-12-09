@@ -12,8 +12,7 @@ namespace SalesWebMvc
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            builder.Services.AddDbContext<SalesWebMvcContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("SalesWebMvcContext") ?? throw new InvalidOperationException("Connection string 'SalesWebMvcContext' not found.")));
+            builder.Services.AddDbContext<SalesWebMvcContext>(options => options.UseInMemoryDatabase("BancoEmMemoria"));
 
             builder.Services.AddScoped<SeedingService>();
             builder.Services.AddScoped<SellerService>();
